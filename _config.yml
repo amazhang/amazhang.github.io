@@ -12,10 +12,8 @@ description: > # this means to ignore newlines until "baseurl:"
   This is the blog of the New York based designer, Anthony Zhang.
   The site is to serve as a test drive for messing with Jekyll and
   seeing if I can actually keep to updating a blog.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://amazhang.com" # the base hostname & protocol for your site
-twitter_username: amazhang
-github_username:  amazhang
+permalink: /:year/:month/:day/:title/
+url: "http://localhost:4000/" # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown

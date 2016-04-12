@@ -1,0 +1,913 @@
+@include font-face(Gotham, 'Gotham-Thin', 200);
+@include font-face(Gotham, 'Gotham-ExtraLight', 300);
+@include font-face(Gotham, 'Gotham-Light', 400);
+@include font-face(Gotham, 'Gotham-Book', 500);
+@include font-face(Gotham, 'Gotham-Medium', 700);
+@include font-face(Gotham, 'Gotham-Bold', 800);
+
+* {
+    @include borderBox;
+    line-height: 1.7em;
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    height: 100%;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    background-color: $bgColor;
+
+    font-family: Gotham, "Helvetica-Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: $bodyColor;
+
+    &.no-scroll{
+        overflow: hidden;
+    }
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+
+    li{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.hidden{
+    display: none;
+}
+.sml{
+    display: none;
+}
+.lrg{
+    display: block;
+}
+img{
+    display: block;
+    width: 100%;
+}
+
+.smallCaps{
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+a, button {
+    cursor: pointer;
+    outline: none;
+}
+
+.clearfix{
+    clear:both;
+    float:none;
+}
+
+h1, h2, h3, h4, h5{
+    font-weight: 300;
+    color: $black;
+    max-width: $max-content-size;
+    margin: 0 auto;
+    padding: 0 $body-padding-sml;
+
+    &.white{
+        color: #fff;
+    }
+}
+
+h1{
+    font-size: 48px;
+}
+
+h2{
+    font-size: 32px;
+    margin-bottom: $body-padding-sml;
+    line-height: 1.4em;
+
+    br{
+        line-height: 1.4em;
+    }
+}
+h3{
+    font-weight: 700;
+    font-size: 18px;
+    color: $darkerBody;
+}
+p{
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: $body-padding-content;
+    max-width: $max-content-size;
+    margin: 0 auto;
+    padding: 0 $body-padding-sml;
+
+    &.subhead{
+        font-size: 18px;
+        font-weight: 400;
+    }
+    &.bold{
+        font-weight: 700;
+        color: $darkerBody;
+    }
+}
+
+a, form input[type=submit], button.submit{
+    color: $primary;
+    text-decoration: none;
+    outline: none;
+
+    &.primary{
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 1px;
+        font-weight: 700;
+        @include prefix (transition, 0.3s $easing-curve);
+        margin: $body-padding;
+        position: relative;
+
+        &:after{
+            content: "";
+            width: 0;
+            height: 1px;
+            @include centerAbsH;
+            background-color: transparent;
+            bottom: -4px;
+            @include prefix (transition, 0.3s $easing-curve);
+        }
+
+        &:hover{
+            color: $primaryHover;
+
+            &:after{
+                width: 100%;
+                background-color: $primaryHover;
+            }
+        }
+    }
+    &.button{
+        text-transform: uppercase;
+        font-size: 12px;
+        color: $primary;
+        letter-spacing: 1px;
+        background: 0;
+        font-weight: 700;
+        padding: $body-padding-sml $body-padding;
+        border: 2px solid $primary;
+        @include prefix (border-radius, 3px);
+        display: block;
+        max-width: 250px;
+        width: 80%;
+        margin: $body-padding auto;
+        background-color: transparent;
+        @include prefix (transition, 0.3s $easing-curve);
+
+        &:hover{
+            border-color: $primaryHover;
+            background-color: $primaryHover;
+            color: #fff;
+        }
+    }
+}
+.loading{
+    position: fixed;
+    width: 100vw;
+    height: 100%;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    z-index: $z-modal;
+    @include prefix (transition, 0.3s 0.3s $easing-curve);
+    background-color: $bgColor;
+
+    &.loaded{
+        opacity: 0;
+    }
+}
+.modal{
+    position: fixed;
+    width: 100vw;
+    height: 0;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    @include prefix (transition, 0.3s $easing-curve);
+    z-index: $z-modal;
+    overflow: auto;
+    
+    &.bio{
+        overflow: hidden;
+    }
+
+    &.open{
+        background-color: rgba(254, 249, 244, 0.9);
+        height: 100vh;
+        pointer-events: auto; 
+
+        & + .section-wrapper{
+            @include prefix (filter, blur(10px));
+        }
+    }
+    
+    &.photo{
+        .photo{
+            @include centerAbsH;
+            @include centerAbsV;
+            width: 80vw;
+            height: 80vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+
+            &.eb_map{
+                background-image: url("../img/header_clinics-eb2.jpg");
+            }
+
+            &.lebanon_map{
+                background-image: url("../img/header_clinics-leb2.jpg");
+            }
+        }
+    }
+
+    .modal-wrap{
+        @include prefix (transition, 0.3s $easing-curve);
+        @include prefix (transform, translateY(#{$body-padding-content}) scale(1.1) );
+        opacity: 0;
+        height: 100%;
+
+        &.displayContents{
+            @include prefix (transform, translateY(0) scale(1) );
+            opacity: 1;
+        }
+    }
+    
+    .close{
+        width: $body-padding-content;
+        height: $body-padding-content;
+        position: fixed;
+        top: $body-padding-content;
+        right: $body-padding-content;
+        cursor: pointer;
+
+        &:hover{
+            &:before{
+                opacity: 1;
+                @include prefix (transform, scale(1.1) rotate(-45deg));
+            }
+            &:after{
+                opacity: 1;
+                @include prefix (transform, scale(1.1) rotate(45deg));
+            }
+        }
+
+        &:before, &:after{
+            content: "";
+            width: 100%;
+            height: 3px;
+            @include prefix (border-radius, 2px);
+            background-color: $primary;
+            opacity: 0.5;
+            @include prefix (transition, 0.3s $easing-curve);
+            position: absolute;
+            top: 50%;
+        }
+
+        &:before{
+            @include prefix (transform, rotate(-45deg));
+        }
+        &:after{
+            @include prefix (transform, rotate(45deg));
+        }
+    }
+    .arrow{
+        @include centerAbsV;
+        position: fixed;
+        cursor: pointer;
+        width: $body-padding-content;
+        height: $body-padding-content;
+        @include prefix (transition, 0.3s $easing-curve);
+        opacity: 0.5;
+        z-index: $z-third-level;
+        
+        &:after{
+            content: "";
+            width: #{sqrt( ($body-padding-content-int*$body-padding-content-int)/2 ) + "px"};
+            height: #{sqrt( ($body-padding-content-int*$body-padding-content-int)/2 ) + "px"};
+            border: 3px solid $primary;
+            @include prefix (transition, 0.3s $easing-curve);
+            @include prefix (border-radius, 2px);
+            border-right: 0;
+            border-bottom: 0;
+            @include centerAbsH;
+        }
+
+        &:hover{
+            opacity: 1;
+
+            &.left:after {
+                @include prefix (transform, scale(1.1) rotate(-45deg));
+            }
+            &.right:after {
+                @include prefix (transform, scale(1.1) rotate(135deg));
+            }
+        }
+
+        &.left {
+            left: $body-padding-content;
+
+            &:after{
+                @include prefix (transform, rotate(-45deg));
+            }
+        }
+        &.right{
+            right: $body-padding-content;
+
+            &:after{
+                @include prefix (transform, rotate(135deg));
+            }
+        }
+    }
+    .carousel{
+        width: 100%;
+        height: 100%;
+
+        .carousel-wrap{
+            width: 100%;
+            height: 100%;
+           
+            &.transition{
+                width: 200%;
+                
+                .person-wrap{
+                    width: 50%;
+                    float: left;
+                }
+            }
+            
+            .person-wrap{
+                overflow: auto;
+                height: 100%;
+            }
+            .person{
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                position: relative;
+
+                &.no-bio{
+                    .image{
+                        position: static;
+                        margin: 0 auto;
+                        padding-left: 0;
+
+                        img{
+                            margin-top: 0;
+                            float: none;
+                            padding-right: 0;
+                            @include prefix (transform, translateX(0));
+                            margin: 0 auto;
+                        }
+                    }
+                    .info-wrap{
+                        position: static;
+                        overflow: hidden;
+                        height: auto;
+                        padding-right: 0;
+
+                        .info{
+                            position: static;
+                            padding-top: 0;
+                            left: auto;
+                            text-align: center;
+                            margin: 0 auto;
+                            margin-top: $body-padding-sml;
+                            max-width: $max-content-size;
+                            @include calc (width, calc( 100% - #{$body-padding-content * 2} ) );
+                            padding-bottom: 0;
+                            
+                            h2,p{
+                                margin-left: 0;
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+
+                h2{
+                    margin-bottom: 0;
+                }
+
+                p{
+                    margin-bottom: $body-padding-sml;
+                }
+
+                .image{
+                    width: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding-top: 25vh;
+                    padding-left: $body-padding-content*2;
+                    
+                    img{
+                        margin-top: 10px;
+                        max-width: $max-content-size * 0.5 * 0.75;
+                        float: right;
+                        width: 75%;
+                        padding-right: $body-padding;
+                        @include prefix (transform, translateX(-25%));
+                    }
+                }
+                .info-wrap{
+                    width: 100%;
+                    left: 0;
+                    top: 0;
+                    position: absolute;
+                    overflow: auto;
+                    height: 100%;
+                    padding-right: $body-padding-content*2;
+                    // pointer-events: none;
+
+                    .info{
+                        position: absolute;
+                        left: 50%;
+                        @include calc (width, calc( 50% - #{$body-padding-content * 2} ) );
+                        padding-bottom: $body-padding-content;
+                        padding-top: 25vh;
+                        max-width: 0.5 * $max-content-size;
+                    }
+
+                    h2, p{
+                        margin-left: -20%;
+                        margin-right: 0;
+                        width: 125%;
+                    }
+
+                    // for no image
+                    &:only-child{
+                        padding-right: 0;
+
+                        .info{
+                            @include centerAbsH;
+                            padding-top: 0;
+                            @include centerAbsV;
+                            width: 100%;
+                            max-width: $max-content-size;
+                            text-align: center;
+
+                            h2,p{
+                                margin: 0 auto;
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+form{
+    width: 100%;
+    position: relative;
+    
+    &#message input[type=submit], button.submit{
+        position: absolute;
+        left: 50%;
+        margin-left: -75px;
+        bottom: 0;
+        @include prefix (transform, translateY(50%));
+        @include prefix (box-shadow, 0 3px 5px rgba(0,0,0,0.2));
+
+        &:hover{
+            @include prefix (box-shadow, 0 5px 8px rgba(0,0,0,0.4));
+        }
+    }
+    
+    .form-error{
+        position: absolute;
+        bottom: -135px;
+        font-size: 12px;
+        letter-spacing: -0.2px;
+        font-weight: 500;
+        left: 0;
+        width: 100%;
+        height: 95px;
+        text-align: center;
+        color: $errorColor;
+        opacity: 0;
+        @include prefix (transform, translateY(20px));
+        @include prefix (transition, 0.3s $easing-curve);
+
+        p{
+            font-size: 12px;
+            margin-bottom: 0;
+            padding: 0;
+
+            &:first-child{
+                font-weight: 600;
+            }
+
+            &:last-child{
+                margin-top: 15px;
+            }
+        }
+
+        a{
+            color: $errorColor;
+            font-weight: 600;
+            border-bottom: 1px dotted $errorColor;
+            padding-bottom: 1px;
+        }
+
+        &.show{
+            opacity : 1;
+            @include prefix (transform, translateY(0));
+        }
+    }
+
+    input[type=submit], button.submit{
+        text-align: center;
+        width: 150px;
+        height: 60px;
+        z-index: $z-first-level;
+        background-color: $black;
+        padding: $body-padding-sml/2 $body-padding-content/2;
+        @include prefix (border-radius, #{$body-padding-sml*2} );
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 500;
+        letter-spacing: 1px;
+        font-size: 17px;
+        cursor: pointer;
+        background-position: 20px center;
+        @include prefix (transition, 0.3s $easing-curve);
+        @include prefix (transition-property, background-color, text-indent, background-position, box-shadow, border);
+        border: 0;
+
+        &:hover{
+            background-color: $blackHover;
+        }
+
+        &.sent{
+            background-color: $primary;
+            background-image: url("../img/white-checkmark.svg");
+            background-position: 35px center;
+            background-repeat: no-repeat;
+            background-size: 18px 15px;
+            text-indent: 25px;
+
+            pointer-events: none;
+        }
+
+        &.failed{
+            background-color: $errorColor;
+            background-image: url("../img/white-x.svg");
+            background-position: 30px center;
+            background-repeat: no-repeat;
+            background-size: 18px 15px;
+            text-indent: 25px;
+
+            pointer-events: none;
+        }
+
+        &.submitting{
+            background-image: url("../img/ajax-loader.gif");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 30px 30px;
+        }
+    }
+
+    .field-row{
+        width: 100%;
+        display: block;
+    
+        &.comment{
+            margin-top: -$body-padding-sml;
+
+            .field{
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .field{
+        width: 100%;
+        display: inline-block;
+        position: relative;
+        margin-bottom: $body-padding-content;
+        min-height: 40px;
+
+        &.half{
+            width: 47.5%;
+
+            &:first-child{
+                margin-right: 5%;
+            }
+        }
+    }
+    label{
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 24px;
+        color: $grey;
+        font-weight: 300;
+        width: 100%;
+        text-align: left;
+        pointer-events: none;
+        @include prefix (transition, 0.3s $easing-curve);
+
+        &:after{
+            width: 0;
+            height: 1px;
+            background-color: $primary;
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            display: block;
+            @include prefix (transition, 0.3s $easing-curve);
+            @include prefix (transition-property, width);
+        }
+
+        span.error{
+            display: none;
+        }
+    }
+    textarea{
+        height: 1.7em;
+        min-height : 1.7em;
+        overflow-y: hidden;
+        padding-top: 1.1em;
+    }
+    .field .copytext{
+        margin-top: -1.7em;
+        display: none;
+        pointer-events: none;
+        min-height: 1.7em;
+    }
+
+    input[type=text], textarea, .fakeSelect, .copytext{
+        background-color: transparent;
+        border: 0;
+        border-bottom: 1px dotted $stroke-color;
+        font-size: 24px;
+        color: $primary;
+        font-weight: 400;
+        font-family: Gotham;
+        width: 100%;
+        outline: 0;
+        position: relative;
+        display: block;
+        padding: 0;
+        text-align: left;
+        letter-spacing: 0px;
+        @include prefix (transition, 0.3s $easing-curve);
+        resize: none;
+
+        &.wrong{
+            border-bottom: 1px solid $errorColor;
+            color: $errorColor;
+
+            & + label{
+                color: $errorColor !important;
+
+                .error{
+                    font-weight: 400;
+                }
+            }
+
+            &.missing + label span{
+                &.missing{
+                    display: inline;
+                }
+                &.invalid{
+                    display: none;
+                }
+            }
+            &.invalid + label span{
+                &.missing{
+                    display: none;
+                }
+                &.invalid{
+                    display: inline;
+                }
+            }
+            &:focus + label:after{
+                background-color: $errorColor;
+            }
+            &:hover, &:focus{
+                border-bottom: 1px solid $errorColor !important;
+            }
+
+        }
+
+        &:focus, &:focus:hover{
+            border-bottom: 1px dotted transparent;
+        }
+
+        &:focus + label, &:valid + label, &.wrong + label{
+            font-weight: 700;
+            color: $black;
+            font-size: 12px;
+            padding-bottom: 45px;
+            @include prefix (transform, translateY(-25px));
+        }
+        
+        &:focus + label:after, &:focus:valid + label:after{
+            width: 100%;
+            opacity: 1;
+        }
+        
+        &:valid + label:after{
+            @include prefix (transition, 0.15s);
+            opacity: 0;
+            width: 100%;
+        }
+
+        &:focus{
+            border-bottom: 1px dotted transparent;
+        }
+
+        &:hover{
+            border-bottom: 1px dotted $grey;
+
+            & + label{
+                color: $darkGrey;
+            }
+
+            &:focus + label, &:valid + label{
+                color: $black;
+            }
+        }
+    }
+
+    .fakeSelect{
+        text-align: left;
+        @include calc (width, calc(100% + #{$body-padding * 2} ));
+        padding: $body-padding-sml/2 0;
+        border: 1px solid transparent;
+        margin-left: -$body-padding;
+        margin-top: -$body-padding-sml;
+        @include prefix (border-radius, $border-radius);
+        background-color: transparent;
+        @include prefix (transition, 0.3s $easing-curve);
+        height: $body-padding-sml * 3;
+        cursor: pointer;
+        position: relative;
+
+        &.open{
+            background-color: #fff;
+
+            &:hover{
+                @include prefix (box-shadow, none );
+            }
+
+            .itemWrap{
+                margin-bottom: $body-padding-content;
+                @include prefix (box-shadow, 0 0 15px 0 rgba(0, 0, 0, 0.1) );
+                background-color: #fff;
+            }
+        }
+
+        &:hover{
+            border: 1px solid transparent;
+            background-color: #fff;
+
+            .itemWrap{
+                 @include prefix (box-shadow, 0 0 15px 0 rgba(0, 0, 0, 0.1) );
+            }
+
+            .item.selected .item-wrap{
+                border-bottom: 1px dotted transparent;
+
+                &:after{
+                    opacity: 1;
+                }
+            }
+        }
+
+        .item{
+            padding: 0 $body-padding;
+            cursor: pointer;
+            width: 100%;
+            @include prefix (transition, 0.3s $easing-curve);
+
+            .item-wrap{
+                @include prefix (transition, 0.3s $easing-curve);
+                padding: $body-padding-sml 0;
+                border-bottom: 1px dotted $stroke-color;
+                position: relative;
+            }
+
+            &.selected {
+                @include centerAbsV;
+            
+                .item-wrap{
+                    padding: 5px 0;
+
+                    &:after{
+                        content: "";
+                        width: 12px;
+                        height: 12px;
+                        background: url("../img/dropdown.svg") right center no-repeat;
+                        background-size: contain;
+                        @include centerAbsV;
+                        right: 0;
+                        opacity: 0.4;
+                        @include prefix (transition, 0.3s $easing-curve);
+                    }
+                }
+            }
+        }
+
+        select{
+            display: none;
+            pointer-events: none;
+        }
+        
+        .itemWrap{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: $z-dropdown;
+
+            .options{
+                opacity: 0;
+                @include prefix (transition, 0.3s $easing-curve);
+            }
+
+            .item{
+                color: $grey;
+                width: 100%;
+
+                &:hover{
+                    background-color: #F6FCF5;
+                    opacity: 1;
+                    color: $darkGrey;
+
+                    .item-wrap{
+                        padding-left: $body-padding-sml;
+                    }
+
+                    &:first-child .item-wrap, &.sel .item-wrap{
+                        padding-left: 0;
+                    }
+                }
+
+                &:first-child{
+                    background-color: transparent;
+                    color: $black;
+                    font-weight: 500;
+
+                    .item-wrap{
+                        border-bottom: 0;
+                        @include prefix (transition, 0s);
+                    }
+                }
+
+                &:last-child, &:hover:last-child{
+                    .item-wrap{
+                        border-bottom: none;
+                    }
+                }
+
+                &.sel .item-wrap{
+                    // font-weight: 500;
+                    color: $primary;
+                    position: relative;
+
+                    &:after{
+                        content: "";
+                        @include centerAbsV;
+                        right: 0;
+                        width: 20px;
+                        height: 20px;
+                        background: url("../img/checkmark_green.svg") center right no-repeat;
+                        background-size: contain;
+                        opacity: 0.5;
+                    }
+                }
+            }
+        }
+    }
+}

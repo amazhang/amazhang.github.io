@@ -1,0 +1,55 @@
+// Our variables
+$serif-font:				"Goudy", "Garamound", "Baskerville", "Georgia", "Big Caslon", serif;
+$sans-serif-font:		"Avenir", "Calibri", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$base-font-size:		16px;
+$base-font-weight: 	500;
+$small-font-size:  	$base-font-size * 0.875;
+$base-line-height: 	1.5;
+
+$spacing-unit:     	30px;
+$text-color:       	#111;
+$brand-color:      	#2a7ae2;
+
+$grey-color:       	#828282;
+$grey-color-light: 	lighten($grey-color, 40%);
+$grey-color-dark:  	darken($grey-color, 25%);
+
+// Width of the content area
+$content-width:    	800px;
+$on-palm:          	600px;
+$on-laptop:        	800px;
+
+
+
+
+
+
+$navColor 									: #FAF3E5;
+$bgColor										:	#faf6ed;
+$black											: #201a1a;
+$bodyColor									:	#3B5D87;
+$darkerBody									: #080049;
+$primary										:	#0C0447;
+$primaryHover								: #211769;
+$linkColor									: #5078AB;
+$linkHover									: #6696D4;
+$linkVisited								: #8C99AB;
+$errorColor									: #ec1010;
+
+$easing-curve       				: cubic-bezier(.7,0,.3,1);
+$easing-bounce      				: cubic-bezier(.59,.26,.43,1.26);
+
+$breakpt-sml 								: 800px;
+$breakpt-med 								: 1024px;
+$breakpt-lrg 								: 1440px;
+$max-content-size 					: 800px;
+
+$topBarHeight       				: 80px;
+$topBarHeight-sml						: 70px;
+
+$body-padding-sml 					: 20px;
+$body-padding 							: 30px;
+$body-padding-content 			: 60px;
+$body-padding-content-int 	: 60;
+
+$border-radius							: 3px;

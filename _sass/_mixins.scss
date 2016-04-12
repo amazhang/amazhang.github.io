@@ -1,0 +1,151 @@
+@mixin prefix ( $property, $value... ) {
+  -webkit-#{$property}: $value;
+     -moz-#{$property}: $value;
+      -ms-#{$property}: $value;
+       -o-#{$property}: $value;
+          #{$property}: $value;
+}
+@mixin calc ( $property, $value... ) {
+    #{$property}: -moz-#{$value};
+    #{$property}: -webkit-#{$value};
+    #{$property}: -o-#{$value};
+    #{$property}: #{$value};
+}
+@mixin linear-gradient ($pos, $startColor, $endColor...){
+    // background: $startColor; /* Old browsers */
+    background-image: -moz-linear-gradient($pos, $startColor,$endColor); /* FF3.6+ */
+    background-image: -webkit-linear-gradient($pos, $startColor,$endColor); /* Chrome10+,Safari5.1+ */
+    background-image: -o-linear-gradient($pos, $startColor,$endColor); /* Opera 11.10+ */
+    background-image: -ms-linear-gradient($pos, $startColor,$endColor); /* IE10+ */
+    background-image: linear-gradient(to $pos, $endColor,$startColor); /* W3C */
+}
+
+@mixin radial-gradient($from, $to) {
+    background-color: $from;
+    background: -moz-radial-gradient(center, circle cover, $from 0%, $to 75%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 75%, color-stop(0%, $from), color-stop(75%, $to));
+    background: -webkit-radial-gradient(center, circle cover, $from 0%, $to 75%);
+    background: -o-radial-gradient(center, circle cover, $from 0%, $to 75%);
+    background: -ms-radial-gradient(center, circle cover, $from 0%, $to 75%);
+    background: radial-gradient(center, circle cover, $from 0%, $to 75%);
+}
+
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal) {
+    @font-face {
+        font-family: $font-family;
+        font-weight: $weight;
+        font-style: $style;
+
+        src: url('../fonts/#{$file-path}.eot');
+        src: url('../fonts/#{$file-path}.eot?#iefix') format('embedded-opentype'),
+             url('../fonts/#{$file-path}.woff') format('woff'),
+             url('../fonts/#{$file-path}.ttf') format('truetype'),
+             url('../fonts/#{$file-path}.svg') format('svg');
+    }
+}
+
+@mixin placeholder {
+  $placeholders: ":-webkit-input" ":-moz" "-moz" "-ms-input";
+  @each $placeholder in $placeholders {
+    &:#{$placeholder}-placeholder {
+      @content;
+    }
+  }
+}
+
+@mixin animation($animate...) {
+    $max: length($animate);
+    $animations: '';
+
+    @for $i from 1 through $max {
+        $animations: #{$animations + nth($animate, $i)};
+
+        @if $i < $max {
+            $animations: #{$animations + ", "};
+        }
+    }
+    -webkit-animation: $animations;
+    -moz-animation:    $animations;
+    -o-animation:      $animations;
+    animation:         $animations;
+}
+
+@mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} {
+        @content;
+    }
+    @-moz-keyframes #{$animationName} {
+        @content;
+    }
+    @-o-keyframes #{$animationName} {
+        @content;
+    }
+    @keyframes #{$animationName} {
+        @content;
+    }
+}
+
+@mixin borderBox {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+}
+@mixin contentBox {
+  box-sizing: content-box;
+  -moz-box-sizing: content-box; 
+  -webkit-box-sizing: content-box; 
+}
+
+@mixin centerAbsV {
+  top: 50%;
+  position: absolute;
+  @include prefix (transform, translateY(-50%));
+}
+@mixin centerAbsH {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+@mixin antiAlias {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+$loops : 0;
+@function approximateSq($num, $approx) {
+  $root : (( $num / $approx ) + $approx) / 2;
+  @return $root;
+}
+
+@function sqrt($num) {
+  $root:0;
+  $testRoot : 0;
+  $upperBounds : round($num / 2) + 1; //never need over half the main number. Add one just to be sure!
+  $loops : $upperBounds;
+  @for $test from 2 through $upperBounds {
+    $sq : $test * $test;
+    @if $sq <= $num {
+      $testRoot : $test;
+    }
+  }  
+  
+  $root : (approximateSq($num, $testRoot));
+  
+  @return $root;
+}
+
+
+// Use media queries like this:
+// @include media-query($on-palm) {
+//     .wrapper {
+//         padding-right: $spacing-unit / 2;
+//         padding-left: $spacing-unit / 2;
+//     }
+// }
+@mixin media-query($device) {
+  @media screen and (max-width: $device) {
+    @content;
+  }
+}

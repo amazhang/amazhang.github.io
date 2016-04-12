@@ -2,14 +2,51 @@
 layout: default
 ---
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="polaroid-wrap">
+  	<div class="post-polaroid still">
+      <div class="post-wrap">
+        <div class="background" style="background-image: url('{{ site.url }}img/{{page.date | date: '%Y%m%d' }}_cover.jpg');"></div>
+      </div>
+      <div class="post-meta">
+        <div class="date">
+          <div class="month">{{ page.date | date: "%b" }}</div>
+          <div class="day">{{ page.date | date: "%d" }}</div>
+          <div class="year">{{ page.date | date: "%Y" }}</div>
+        </div>
+        <div class="title-blurb">
+          <h2>{{ page.title }}</h2>
+          <h4>{{ page.description }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-wrap">
+    <div class="content">
+  	  <header class="post-header post-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+          {{ page.date | date: "%A, %B %d, %Y, %H:%M:%S" }}
+        </time> 
+  	  </header>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-    <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-  </header>
-
-  <div class="post-content" itemprop="articleBody">
-    {{ content }}
+  	  <div class="post-content" itemprop="articleBody">
+  	    {{ content }}
+  	  </div>
+      
+      <div class="currently-wrapper">
+        {% if page.currentlyWatching %}
+          <div class="currently-item">
+            <i class="icon-current-watching"></i>
+            <span class="value">{{ page.currentlyWatching }}</span>
+          </div>
+        {% endif %}
+        {% if page.currentlyListening %}
+          <div class="currently-item">
+            <i class="icon-current-music"></i>
+            <span class="value">{{ page.currentlyListening[0] }} – {{ page.currentlyListening[1] }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
   </div>
 
 </article>

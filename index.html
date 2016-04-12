@@ -3,21 +3,46 @@ layout: default
 ---
 
 <div class="home">
-
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  <div class="post-list-wrapper">
+    <ul class="post-list">
+      {% for post in site.posts %}
+        <li class="post-polaroid" onclick="window.location.href='{{ post.url }}'">
+          <div class="post-wrap">
+            <div class="background" style="background-image: url('img/{{ post.date | date: '%Y%m%d' }}_cover.jpg');"></div>
+          </div>
+          <div class="post-meta">
+            <div class="date">
+              <div class="month">{{ post.date | date: "%b" }}</div>
+              <div class="day">{{ post.date | date: "%d" }}</div>
+              <div class="year">{{ post.date | date: "%Y" }}</div>
+            </div>
+            <div class="title-blurb">
+              <h2>{{ post.title }}</h2>
+              <h4>{{ post.description }}</h4>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="right-side">
+    <div class="intro-wrapper">
+      <div class="intro-text">
+        <h1>Thoughts of a nerd in New York City</h1>
+        <p>The rants of <a href="http://www.amazhang.com" target="_blank">Anthony Zhang</a></p>
+      </div>
+      <ul class="social-links">
+        <li class="icon-social-email" onclick="window.location.href = 'mailto:anthony@amazhang.com?subject=You\'re%20so%20amazhang!'"></li>
+        <li class="icon-social-twitter" onclick="window.open('http://www.twitter.com/amazhang')"></li>
+        <li class="icon-social-linkedin" onclick="window.open('https://www.linkedin.com/in/amazhang')"></li>
+        <li class="icon-social-instagram" onclick="window.open('http://instagram.com/amazhang')"></li>
+        <li class="icon-social-dribbble" onclick="window.open('https://dribbble.com/amazhang')"></li>
+      </ul>
+    </div>
+  </div>
+  
+  <p class="rss-subscribe">
+    <a href="{{ "/feed.xml" | prepend: site.baseurl }}"></a>
+  </p>
 
 </div>
