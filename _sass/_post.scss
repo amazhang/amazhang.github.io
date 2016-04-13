@@ -1,33 +1,36 @@
-.post {
-	
-	.polaroid-wrap,
-	.content-wrap {
-		width: 50%;	
-	}
-	
-	.polaroid-wrap {
-		min-height: 100vh;
-		position: fixed;
-		top: 0;
-		left: 0;
+@media screen and (max-width: $breakpt-med ) {
+	.page-content .post {
+		.polaroid-wrap .post-polaroid {
+			transform: rotate(-$polaroid-angle);
+			width: 95%;
+		}
 		
-		.post-polaroid {
-			@include centerAbsV;
-			@include centerAbsH;
+		.content {
+			padding: $body-padding;
+			padding-top: 0;
+			max-width: $max-content-size;
+			margin: 0 auto;
 		}
 	}
+}
+
+.post {
 	
-	.content-wrap {
-		position: absolute;
-		top: 0;
-		right: 0;
+	.polaroid-wrap {
+		.post-polaroid {
+			transform: translateY(-50%) rotate($polaroid-angle);
+			width: 80%;
+			max-width: 650px;
+			right: $body-padding-content;
+			left: auto;
+			margin: 0;
+		}
 	}
 	
 	.content {
 		padding-top: 25vh;
 		padding: 25vh $body-padding-content;
 		max-width: $max-content-size;
-		margin: 0 auto;
 	}
 	
 	.post-header {

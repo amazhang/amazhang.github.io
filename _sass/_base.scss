@@ -20,6 +20,7 @@ body {
   font: $base-font-weight #{$base-font-size}/#{$base-line-height} $serif-font;
   color: $text-color;
   background-color: $bgColor;
+  padding: $body-padding 0 $body-padding-content 0;
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
   -moz-font-feature-settings: "kern" 1;
@@ -185,14 +186,93 @@ pre {
   }
 }
 
+// common 2 column layout i'm using
+.scrollable-fixed-wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  
+  &.right-fixed {
+    .scrollable-wrapper {
+      left: 0;
+    }
+    .fixed-wrapper {
+      right: 0;
+    }
+  }
+  
+  &.left-fixed {
+    .scrollable-wrapper {
+      right: 0;
+    }
+    .fixed-wrapper {
+      left: 0;
+    }
+  }
+  
+  .scrollable-wrapper {
+    position: absolute;
+    top: 0;
+    width: 50%;
+  } 
+   
+  .fixed-wrapper {
+    position: fixed;
+    width: 50%;
+    top: 0;
+    height: 100vh;
+    padding: $body-padding-content; 
+  }
+  
+  .fixed-contents {
+    width: 100%;
+    @include centerAbsV;
+    @include centerAbsH;
+  }
+}
 
+@media screen and (max-width: $breakpt-med ) {
+  .page-content .scrollable-fixed-wrap {
+    .scrollable-wrapper, .fixed-wrapper {
+      width: 100%;
+    } 
+    
+    .fixed-wrapper {
+      height: auto;
+      position: static;
+      top: auto;
+      left: auto;
+      right: auto;
+      padding: $body-padding-content $body-padding-sml/2;
+      
+      .fixed-contents {
+        position: static;
+        margin: 0 auto;
+        left: auto;
+        top: auto;
+        right: auto;
+        left: auto;
+        transform: translateY(0);
+      }
+    }
+    
+    .scrollable-wrapper {
+      position: static;
+      top: auto;
+      right: auto;
+      left: auto;
+    }
+  }
+}
+
+// polaroid css
 .post-polaroid {
   background-color: #fff;
   border: 1px solid $grey-color-light;
   font-family: Handwritten;
   width: 90%;
   max-width: 750px;
-  padding: $body-padding-sml*2 $body-padding-sml*2 0;
+  padding: 3% 3% 0;
   position: relative;
   margin: $body-padding*2 auto;
   cursor: pointer;
@@ -220,6 +300,10 @@ pre {
     .background {
       @include prefix (transform, scale(1.03));
       @include prefix (filter, grayscale(0));
+      
+      &:after {
+        border-top: 400px solid rgba(255,255,255,0.1);
+      }
     }
     
     .post-meta {
@@ -244,13 +328,25 @@ pre {
     background-size: cover;
     @include prefix (filter, grayscale(50%));
     @include prefix (transition, 0.5s $easing-curve);
+    
+    &:after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 400px solid rgba(255,255,255,0.05);
+      border-left: 600px solid transparent;
+      position: absolute;
+      top: 0;
+      right: 0;
+      @include prefix (transition, 0.5s $easing-curve);
+    }
   }
   
   .post-meta {
     color: $black;
     width: 100%;
     opacity: 0.8;
-    padding: $body-padding-sml 0;
+    padding: $body-padding-sml;
     @include prefix (transition, 0.3s $easing-curve);
     
     & > * {
@@ -259,21 +355,22 @@ pre {
     }
   }
   .title-blurb {
-    @include calc (width, calc(100% - 95px));
+    @include calc (width, calc(100% - 75px));
+    padding-left: $body-padding-sml;
     
     h2 {
       margin-bottom: 7px;
+      @include truncate(2, 1.6em);
     }
     
     h4 {
-      line-height: 1.6em;
+      @include truncate(2, 1.6em);
     }
   }
   .date {
     text-transform: uppercase;
     line-height: 2.35em;
     padding-right: $body-padding-sml;
-    margin-right: $body-padding-sml;
     position: relative;
     opacity: 0.8;
     // border-right: 1px solid rgba($black,0.2);
@@ -292,11 +389,13 @@ pre {
     .day {
       font-size: 24px;
       letter-spacing: 2px;
+      line-height: 1.5em;
     }
     
     .month, .year {
       font-size: 10px;
       font-weight: 900;
+      line-height: 3em;
     }
     
     .month {

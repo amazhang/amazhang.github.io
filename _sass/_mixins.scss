@@ -5,12 +5,41 @@
        -o-#{$property}: $value;
           #{$property}: $value;
 }
+
+@mixin truncate ( $maxLineNum, $lineHeight, $bgColor: #fff ) {
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $maxLineNum;
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1em;
+  overflow: hidden;
+  
+  &:before {
+    content: "...";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: $lineHeight - 1em;
+    background: $bgColor;
+  }
+}
+
 @mixin calc ( $property, $value... ) {
     #{$property}: -moz-#{$value};
     #{$property}: -webkit-#{$value};
     #{$property}: -o-#{$value};
     #{$property}: #{$value};
 }
+
 @mixin linear-gradient ($pos, $startColor, $endColor...){
     // background: $startColor; /* Old browsers */
     background-image: -moz-linear-gradient($pos, $startColor,$endColor); /* FF3.6+ */
@@ -134,18 +163,4 @@ $loops : 0;
   $root : (approximateSq($num, $testRoot));
   
   @return $root;
-}
-
-
-// Use media queries like this:
-// @include media-query($on-palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
-@mixin media-query($device) {
-  @media screen and (max-width: $device) {
-    @content;
-  }
 }

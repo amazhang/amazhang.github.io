@@ -15,16 +15,7 @@ $grey-color-light: 	lighten($grey-color, 40%);
 $grey-color-dark:  	darken($grey-color, 25%);
 
 // Width of the content area
-$content-width:    	800px;
-$on-palm:          	600px;
-$on-laptop:        	800px;
-
-
-
-
-
-
-$navColor 									: #FAF3E5;
+$navColor 									: #faf3e5;
 $bgColor										:	#faf6ed;
 $black											: #201a1a;
 $bodyColor									:	#3B5D87;
@@ -53,3 +44,4 @@ $body-padding-content 			: 60px;
 $body-padding-content-int 	: 60;
 
 $border-radius							: 3px;
+$polaroid-angle							: -2deg;
