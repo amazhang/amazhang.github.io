@@ -188,35 +188,49 @@ pre {
 // common 2 column layout i'm using
 .scrollable-fixed-wrap {
   width: 100%;
-  height: 100vh;
-  max-width: $breakpt-max;
   margin: 0 auto;
   position: relative;
   padding: 0 $body-padding;
   
-  &.right-fixed {
-    .scrollable-wrapper {
-      left: 0;
+  .right-side {
+    .scrollable-contents {
+      left: 50%;
     }
-    .fixed-wrapper {
+    &.fixed-wrapper {
       left: 50%;
     }
   }
   
-  &.left-fixed {
-    .scrollable-wrapper {
-      right: 0;
+  .left-side {
+    .scrollable-contents {
+      right: 50%;
     }
-    .fixed-wrapper {
+    &.fixed-wrapper {
       right: 50%;
     }
   }
   
   .scrollable-wrapper {
-    position: absolute;
+    position: fixed;
+    left: 0;
     top: 0;
-    width: 50%;
-    padding: $body-padding-content 5%; 
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    
+    &.lock {
+      overflow: hidden;
+      pointer-events: none;
+    }
+    
+    .scrollable-contents {
+      min-height: 100vh;
+      width: 50%;
+      position: absolute;
+      max-width: $breakpt-max / 2;
+      padding: $body-padding-content 5%;
+      top: 0;
+    }
   } 
    
   .fixed-wrapper {
@@ -225,9 +239,15 @@ pre {
     max-width: $breakpt-max / 2;
     top: 0;
     height: 100vh;
-    padding: $body-padding-content 5%; 
+    padding: $body-padding-content 5%;
+    pointer-events: none;
+    z-index: 1;
   }
-  
+  .fixed-inner-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
   .fixed-contents {
     @include centerAbsV;
   }
@@ -315,6 +335,12 @@ pre {
 }
 
 // polaroid css
+a.post-links {
+  border: 0;
+  display: block;
+  @include prefix (transition, 0s);
+}
+
 .post-polaroid {
   background-color: #fff;
   border: 1px solid $grey-color-light;
@@ -325,6 +351,7 @@ pre {
   margin: $body-padding*2 auto;
   cursor: pointer;
   overflow: hidden;
+  pointer-events: auto;
   @include prefix (box-shadow, 0 5px 10px rgba($black, 0.1));
   @include prefix (transition, 0.3s $easing-curve);
   
@@ -453,5 +480,16 @@ pre {
     .year {
       letter-spacing: 4px;
     }
+  }
+}
+
+.swap-content {
+  opacity: 0;
+  @include prefix (transform, translateY(20px));
+  @include prefix (transition, 0.3s $easing-curve);
+  
+  &.appear {
+    opacity: 1;
+    @include prefix (transform, translateY(0px));
   }
 }

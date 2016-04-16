@@ -12,7 +12,7 @@ description: > # this means to ignore newlines until "baseurl:"
   This is the blog of the New York based designer, Anthony Zhang.
   The site is to serve as a test drive for messing with Jekyll and
   seeing if I can actually keep to updating a blog.
-permalink: /:year/:month/:day/:title/
+permalink: posts/:year/:month/:day/:title/
 url: "http://localhost:4000/" # the base hostname & protocol for your site
 
 # Build settings

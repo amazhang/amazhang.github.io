@@ -1,14 +1,13 @@
 ---
 layout: default
 ---
-
-<div class="home">
-  <div class="scrollable-fixed-wrap right-fixed">
-    <div class="intro-side fixed-wrapper">
+<div class="page-name home">
+  <div class="scrollable-fixed-wrap">
+    <div class="intro-side fixed-wrapper swap-content right-side">
       <div class="intro-wrapper fixed-contents">
         <div class="intro-text">
           <h1>Thoughts of a nerd in New York City</h1>
-          <p>The rants of <a href="http://www.amazhang.com" target="_blank">Anthony Zhang</a></p>
+          <div>The rants of <a href="http://www.amazhang.com" target="_blank">Anthony Zhang</a></div>
         </div>
         <ul class="social-links">
           <li class="icon-social-email" onclick="window.location.href = 'mailto:anthony@amazhang.com?subject=You\'re%20so%20amazhang!'"></li>
@@ -19,10 +18,10 @@ layout: default
         </ul>
       </div>
     </div>
-    <div class="post-list-wrapper scrollable-wrapper">
-      <ul class="post-list">
+    <div class="post-list-wrapper scrollable-wrapper left-side">
+      <ul class="post-list scrollable-contents">
         {% for post in site.posts %}
-          <a href="{{ post.url }}">  
+          <a class="post-links" href="{{ post.url }}">  
             <li class="post-polaroid">
               <div class="post-wrap">
                 <div class="background" style="background-image: url('img/{{ post.date | date: '%Y%m%d' }}_cover.jpg');"></div>
