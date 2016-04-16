@@ -20,7 +20,6 @@ body {
   font: $base-font-weight #{$base-font-size}/#{$base-line-height} $serif-font;
   color: $text-color;
   background-color: $bgColor;
-  padding: $body-padding 0 $body-padding-content 0;
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
   -moz-font-feature-settings: "kern" 1;
@@ -189,15 +188,18 @@ pre {
 // common 2 column layout i'm using
 .scrollable-fixed-wrap {
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  max-width: $breakpt-max;
+  margin: 0 auto;
   position: relative;
+  padding: 0 $body-padding;
   
   &.right-fixed {
     .scrollable-wrapper {
       left: 0;
     }
     .fixed-wrapper {
-      right: 0;
+      left: 50%;
     }
   }
   
@@ -206,7 +208,7 @@ pre {
       right: 0;
     }
     .fixed-wrapper {
-      left: 0;
+      right: 50%;
     }
   }
   
@@ -214,20 +216,20 @@ pre {
     position: absolute;
     top: 0;
     width: 50%;
+    padding: $body-padding-content 5%; 
   } 
    
   .fixed-wrapper {
     position: fixed;
     width: 50%;
+    max-width: $breakpt-max / 2;
     top: 0;
     height: 100vh;
-    padding: $body-padding-content; 
+    padding: $body-padding-content 5%; 
   }
   
   .fixed-contents {
-    width: 100%;
     @include centerAbsV;
-    @include centerAbsH;
   }
 }
 
@@ -243,6 +245,7 @@ pre {
       top: auto;
       left: auto;
       right: auto;
+      margin: 0 auto;
       padding: $body-padding-content $body-padding-sml/2;
       
       .fixed-contents {
@@ -265,13 +268,58 @@ pre {
   }
 }
 
+// tags in pill form
+// .tags-wrap {
+//   margin-top: $body-padding-sml * 2;
+// }
+
+// .tag {
+//   float: left;
+//   text-transform: uppercase;
+//   padding: 5px 20px;
+//   border-radius: 20px;
+//   font-family: $sans-serif-font;
+//   font-weight: 900;
+//   font-size: 12px;
+//   background-color: $grey-color-light;
+//   margin-right: 10px;
+//   letter-spacing: 2px;
+//   cursor: pointer;
+//   color: $bodyColor;
+//   @include prefix (transition, 0.3s $easing-curve);
+  
+//   &:hover {
+//     background-color: #fff;
+//     @include prefix (box-shadow, 0 3px 5px rgba(0,0,0, 0.1) );
+//   }
+// }
+
+// tags written like currently watching
+.tag {
+  display: inline;
+  cursor: pointer;
+  @include prefix (transition, 0.3s $easing-curve);
+  border-bottom: 1px dotted transparent;
+  
+  &:hover {
+    border-color: $primary;
+  }
+  
+  &:after {
+    content: ",";
+  }
+  
+  &:last-child:after {
+    display: none;
+  }
+}
+
 // polaroid css
 .post-polaroid {
   background-color: #fff;
   border: 1px solid $grey-color-light;
   font-family: Handwritten;
-  width: 90%;
-  max-width: 750px;
+  width: 100%;
   padding: 3% 3% 0;
   position: relative;
   margin: $body-padding*2 auto;

@@ -6,8 +6,7 @@
 		}
 		
 		.content {
-			padding: $body-padding;
-			padding-top: 0;
+			padding: $body-padding 0;
 			max-width: $max-content-size;
 			margin: 0 auto;
 		}
@@ -17,20 +16,28 @@
 .post {
 	
 	.polaroid-wrap {
+		padding: 0 $body-padding-content;
+			
 		.post-polaroid {
 			transform: translateY(-50%) rotate($polaroid-angle);
-			width: 80%;
-			max-width: 650px;
-			right: $body-padding-content;
-			left: auto;
-			margin: 0;
+			@include calc (width, calc(100% - 10%));
+			right: 5%;
+			margin-top: 0;
+			
+		  border-top-left-radius: 7px 50%;
+		  border-bottom-left-radius: 10px 50%;
+		  border-top-right-radius: 10px 50%;
+		  border-bottom-right-radius: 7px 50%;
 		}
 	}
 	
 	.content {
-		padding-top: 25vh;
-		padding: 25vh $body-padding-content;
+		padding: 15vh 0;
 		max-width: $max-content-size;
+	}
+	
+	.post-content p:last-child {
+		margin-bottom: 0;
 	}
 	
 	.post-header {
@@ -61,7 +68,17 @@
 	}
 	
 	.currently-wrapper {
-		margin-top: $body-padding-content;
+		padding-top: $body-padding-content * 2;
+		position: relative;
+		
+		&:before {
+			content: "";
+			position: absolute;
+			top: $body-padding-content;
+			width: 30px;
+			height: 1px;
+			background-color: $grey-color;
+		}
 	}
 	
 	.currently-item {
@@ -75,6 +92,7 @@
 		
 		i {
 			font-size: 16px;
+			margin-right: 10px;
 		}
 		
 		.value {
@@ -83,7 +101,6 @@
 			font-size: 11px;
 			font-weight: 900;
 			letter-spacing: 2px;
-			margin-left: 10px;
 		}
 	}
 }

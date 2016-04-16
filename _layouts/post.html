@@ -47,6 +47,14 @@ layout: default
               <span class="value">{{ page.currentlyListening[0] }} – {{ page.currentlyListening[1] }}</span>
             </div>
           {% endif %}
+          {% if page.categories %}
+            <div class="currently-item">
+              <i class="icon-tags"></i>
+              {% for tag in page.categories %}
+                <div class="tag value">{{ tag }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>

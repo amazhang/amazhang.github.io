@@ -18,7 +18,7 @@
 @include font-face(Avenir, "Avenir-Light", 300);
 @include font-face(Avenir, "Avenir-Medium", 500);
 @include font-face(Goudy, "GoudyBookletter1911", 500);
-@include font-face(icons, "Glyphter", 500);
+@include font-face(icons, "icons", 500);
 @include font-face(Handwritten, "RockSalt", 500);
 
 // icons
@@ -29,6 +29,7 @@
 	font-weight: normal;
 	@include antiAlias;
 }
+.icon-tags:before{content:'\0041';}
 .icon-back:before{content:'\0042';}
 .icon-social-dribbble:before{content:'\0044';}
 .icon-social-email:before{content:'\0045';}
