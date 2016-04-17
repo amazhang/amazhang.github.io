@@ -26,6 +26,8 @@ body {
   -o-font-feature-settings: "kern" 1;
   font-feature-settings: "kern" 1;
   font-kerning: normal;
+  width: 100%;
+  min-height: 100vh;
 }
 
 p {
@@ -257,6 +259,7 @@ pre {
   .page-content .scrollable-fixed-wrap {
     .scrollable-wrapper, .fixed-wrapper {
       width: 100%;
+      height: auto;
     } 
     
     .fixed-wrapper {
@@ -276,6 +279,7 @@ pre {
         right: auto;
         left: auto;
         transform: translateY(0);
+        text-align: center;
       }
     }
     
@@ -284,6 +288,15 @@ pre {
       top: auto;
       right: auto;
       left: auto;
+      overflow: visible;
+      
+      .scrollable-contents {
+        width: 100%;
+        position: static;
+        top: auto;
+        min-height: 0;
+        margin: 0 auto;
+      }
     }
   }
 }
@@ -339,9 +352,16 @@ a.post-links {
   border: 0;
   display: block;
   @include prefix (transition, 0s);
+  
+  &:nth-child(5n+1) .post-polaroid { @include prefix (transform, rotate(-1.3deg) ); }
+  &:nth-child(5n+2) .post-polaroid { @include prefix (transform, rotate(1.5deg) ); }
+  &:nth-child(5n+3) .post-polaroid { @include prefix (transform, rotate(-2.1deg) ); }
+  &:nth-child(5n+4) .post-polaroid { @include prefix (transform, rotate(0.75deg) ); }
+  &:nth-child(5n+0) .post-polaroid { @include prefix (transform, rotate(1.7deg) ); }
 }
 
-.post-polaroid {
+.post-polaroid,
+a .post-polaroid {
   background-color: #fff;
   border: 1px solid $grey-color-light;
   font-family: Handwritten;
@@ -354,12 +374,6 @@ a.post-links {
   pointer-events: auto;
   @include prefix (box-shadow, 0 5px 10px rgba($black, 0.1));
   @include prefix (transition, 0.3s $easing-curve);
-  
-  &:nth-child(5n+1) { @include prefix (transform, rotate(-1.3deg) ); }
-  &:nth-child(5n+2) { @include prefix (transform, rotate(1.5deg) ); }
-  &:nth-child(5n+3) { @include prefix (transform, rotate(-2.1deg) ); }
-  &:nth-child(5n+4) { @include prefix (transform, rotate(0.75deg) ); }
-  &:nth-child(5n+0) { @include prefix (transform, rotate(1.7deg) ); }
   
   &.still {
     .background{
@@ -483,13 +497,23 @@ a.post-links {
   }
 }
 
-.swap-content {
-  opacity: 0;
-  @include prefix (transform, translateY(20px));
-  @include prefix (transition, 0.3s $easing-curve);
+.swap-content, .swap-content-all {
+  opacity: 1;
+  @include prefix (transform, translate3d(0, 0, 0));
+  @include prefix (transition, 0.5s $easing-curve);
+  @include prefix (transition-property, opacity, transform);
   
-  &.appear {
-    opacity: 1;
-    @include prefix (transform, translateY(0px));
+  &.disappearDown {
+    opacity: 0;
+    @include prefix (transform, translateY(100px));
+  }
+  
+  &.disappearLeft {
+    opacity: 0;
+    @include prefix (transform, translateX(-100px));
+  }
+  &.disappearRight {
+    opacity: 0;
+    @include prefix (transform, translateX(100px));
   }
 }

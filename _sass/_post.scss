@@ -15,14 +15,36 @@
 
 .post {
 	
+	// not using this currently.
+	.post-close {
+		width: 30px;
+		line-height: 30px;
+		text-align: center;
+		position: fixed;
+		top: $body-padding-sml;
+		right: $body-padding-sml;
+		cursor: pointer;
+		@include prefix (transition, 0.3s $easing-curve);
+		z-index: $z-third-level;
+		font-size: 18px;
+		opacity: 0.3;
+		
+		&:hover {
+			opacity: 0.6;
+			@include prefix (transform, scale(1.2));
+		}
+	}
+	
 	.polaroid-wrap {
 		.post-polaroid {
-				@include prefix (transform, translateY(-50%) rotate($polaroid-angle));
+			@include prefix (transform, translateY(-50%) rotate($polaroid-angle));
 			width: 100%;
 			margin-top: 0;
 			
-			&:hover {
-				@include prefix (transform, translateY(-50%) rotate($polaroid-angle-hover));
+			@media screen and (min-width: $breakpt-med ) {
+				&:hover {
+					@include prefix (transform, translateY(-50%) rotate($polaroid-angle-hover));
+				}
 			}
 		}
 	}
@@ -40,13 +62,67 @@
 		font-family: $sans-serif-font;
 		margin-bottom: $body-padding;
 		
-		time {
+		.time-wrapper {
 			text-transform: uppercase;
 			font-size: 11px;
 			color: $primary;
-			opacity: 0.6;
 			font-weight: 900;
 			letter-spacing: 2px;
+			
+			time {
+				opacity: 0.6;
+			}
+			
+			a {
+				border: 0;
+				color: $linkColor;
+				display: block;
+				margin-bottom: 5px;
+				
+				&:hover {
+					color: $linkHover;
+				}
+			}
+		}
+		
+		// .next-prev-control,
+		// .time-wrapper {
+		// 	display: inline-block;
+		// 	vertical-align: middle;
+		// }
+		
+		.next-prev-control {
+			margin-bottom: $body-padding-sml;
+			
+			// for inline-ing it.
+			// padding-right: 15px;
+			// margin-right: 10px;
+			// border-right: 1px solid rgba($linkColor, 0.3);
+			
+			a {
+				display: inline-block;
+				vertical-align: middle;
+				
+				border: 0;
+				width: 25px;
+				height: 25px;
+				font-size: 10px;
+				border-radius: 50%;
+				border: 1px solid;
+				text-align: center;
+				padding: 5px;
+				margin-right: 2px;
+				color: $bodyColor;
+				
+				&:not(.disabled):hover {
+					color: $darkerBody;
+				}
+				
+				&.disabled {
+					opacity: 0.5;
+					pointer-events: none;
+				}
+			}
 		}
 	}
 	

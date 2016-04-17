@@ -3,10 +3,11 @@ var polaroidAngle = "-2deg";
 
 var site = {
 	breakpts : {
-    sml : 650,
-    med : 960,
+    sml : 750,
+    med : 1024,
     lrg : 1440
   },
+  pageTransitionTime : 500,
   transistionEnd : 'webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
   breakpt : function() {
     var ww = window.innerWidth;
@@ -125,50 +126,100 @@ var site = {
       	// this may fail at some point... can't grab it with "title" for some reason.
         document.title = $($(data)[7]).text();	  	
         
-        $(".swap-content.appear").removeClass("appear");
-        setTimeout(function(){
-        	$('.swap-content').html($(data).find('.swap-content').html());
+        if (site.breakpt() === "lrg") {
         	
-        	if ($(".swap-content.fixed-wrapper").children(".scrollable-contents"))
-          	$(".swap-content.fixed-wrapper").addClass("scrollable-wrapper").removeClass("fixed-wrapper");
-	  			if ($(".swap-content.scrollable-wrapper").children(".fixed-contents"))
-          	$(".swap-content.scrollable-wrapper").addClass("fixed-wrapper").removeClass("scrollable-wrapper");
-        	
-        	
-        	// if the url is going to a post, we can transition
+        	var pageTransition = "default";
 			  	var urlStr = State.url;
+			  	
+			  	// if its to a post
 			  	if (urlStr.indexOf("/posts") !== -1){
 			  		var urlStrSlug = urlStr.substr(urlStr.indexOf("/posts"));
-			  		var link = $("a[href='" + urlStrSlug + "']");
-			  		if (link) {
-			  			site.transitionToPost(link, $(data));
+			  		var $link = $("a[href='" + urlStrSlug + "']");
+			  		
+			  		if ($link.length && $link.find(".post-polaroid").length > 0) {
+			  			pageTransition = "listToPost";
+			        $(".swap-content:not(.disappearDown)").addClass("disappearDown");
 			  		}
+			  		else if ($link.length && $link.hasClass("skipLink")){
+			  			pageTransition = "postToPost";
+			  			
+			  			if ($link.hasClass("next")){
+				        $(".swap-content-all").addClass("disappearLeft");
+			  			}
+				      else if ($link.hasClass("prev")){
+				        $(".swap-content-all").addClass("disappearRight");
+				      }
+				    }
 			  	}
-			  	// default transition
+			  	// if its to a lost
 			  	else {
+			  		$('.swap-content').addClass("disappearDown");
 			  		site.transitionDefault($(data));
 			  	}
         	
-        	
-        	$('.swap-content').addClass("appear");
-        }, 300);
+	        setTimeout(function(){
+	       
+			  		if (pageTransition == "listToPost") {
+			  			
+			  			$('.swap-content').html($(data).find('.swap-content').html());
+		        	if ($(".swap-content.fixed-wrapper").children(".scrollable-contents").length > 0)
+		          	$(".swap-content.fixed-wrapper").addClass("scrollable-wrapper").removeClass("fixed-wrapper");
+			  			if ($(".swap-content.scrollable-wrapper").children(".fixed-contents").length > 0)
+		          	$(".swap-content.scrollable-wrapper").addClass("fixed-wrapper").removeClass("scrollable-wrapper");
+			  			
+			  			site.transitionToPost($link, $(data));
+			  			
+			  		} else if (pageTransition == "default") {
+			  			
+			  			$('.swap-content').html($(data).find('.swap-content').html());
+		        	if ($(".swap-content.fixed-wrapper").children(".scrollable-contents").length > 0)
+		          	$(".swap-content.fixed-wrapper").addClass("scrollable-wrapper").removeClass("fixed-wrapper");
+			  			if ($(".swap-content.scrollable-wrapper").children(".fixed-contents").length > 0)
+		          	$(".swap-content.scrollable-wrapper").addClass("fixed-wrapper").removeClass("scrollable-wrapper");
+		          
+				  	
+				  	} else if (pageTransition == "postToPost") {
+				  		$('.swap-content-all').css("transition", "0s");
+				  		$('.swap-content-all').toggleClass("disappearLeft disappearRight").html($(data).find('.swap-content-all').html());
+							$('.swap-content-all').css("transition", "");
+							$("html,body").scrollTop(0);
+							$('.swap-content-all').removeClass("disappearLeft disappearRight");
+				  	}
+	          
+	        }, site.pageTransitionTime);
+        }
+        
+        // else use mobile transition
+        else {
+        	site.mobileTransitionDefault($(data));
+        }
+        
         // _gaq.push(['_trackPageview', State.url]);
       });
     });
   },
+  mobileTransitionDefault : function($data) {
+  	$(".swap-content-all").addClass("disappearDown");
+  	setTimeout(function() {
+  		$("html,body").scrollTop(0);
+  		$('.swap-content-all').html($data.find('.swap-content-all').html());
+  		$('.swap-content-all, .swap-content').removeClass("disappearDown");
+  	}, site.pageTransitionTime);
+  },
   transitionDefault : function($data) {
-  	TweenLite.to($(".polaroid-wrap"), 0.5, {
-  		y : 500,
+  	TweenLite.to($(".polaroid-wrap"), (site.pageTransitionTime / 1000), {
+  		y : 100,
   		alpha : 0,
   		ease : cssBezier,
   		onComplete : function(){
   			$(".page-name").attr("class", $data.find(".page-name").attr("class") );
 				$(".scrollable-fixed-wrap").append($data.find(".post-list-wrapper"));
-  			$(".post-list-wrapper").css("opacity", "0").css("transform", "translateY(500px)");
+  			$(".post-list-wrapper").css("opacity", "0").css("transform", "translateY(100px)");
   			setTimeout(function(){
   				$(".polaroid-wrap.fixed-wrapper").remove();
   				
-  				TweenLite.to($(".post-list-wrapper"), 0.5, {
+  				$('.swap-content, .swap-content-all').removeClass("disappearDown");
+  				TweenLite.to($(".post-list-wrapper"), (site.pageTransitionTime / 1000), {
 			  		y : 0,
 			  		alpha : 1,
 			  	});
@@ -183,20 +234,22 @@ var site = {
   	var polaroidHeight = $polaroidLink.find("li").outerHeight();
   	
   	// the ones we didn't click
-  	TweenLite.to($(".post-list a:not(:nth-child(" + polaroidNum + "))"), 0.5, {
+  	TweenLite.to($(".post-list a:not(:nth-child(" + polaroidNum + "))"), (site.pageTransitionTime / 1000), {
   		alpha : 0,
   		x : -400,
   		ease : cssBezier,
   	});
   	
-  	$(".post-list a:nth-child(" + polaroidNum + ") li").css("transform", "rotate(-2deg)");
-  	TweenLite.to($(".post-list a:nth-child(" + polaroidNum + ")"), 0.5, {
+  	$('.swap-content, .swap-content-all').removeClass("disappearDown");
+		$(".post-list a:nth-child(" + polaroidNum + ") li").css("transform", "rotate(-2deg)");
+  	TweenLite.to($(".post-list a:nth-child(" + polaroidNum + ")"), (site.pageTransitionTime / 1000), {
   		y : ((windowHeight - polaroidHeight)/2) - distFromWindowTop,
   		ease : cssBezier,
   		onComplete : function(){
   			$(".page-name").attr("class", $data.find(".page-name").attr("class") );
-  			$(".post-list-wrapper").addClass("lock");
-				$(".scrollable-fixed-wrap").append($data.find(".fixed-wrapper"));
+  			$(".post-list-wrapper").addClass("lock").css("z-index", "2");
+				$(".scrollable-fixed-wrap").prepend($data.find(".fixed-wrapper"));
+				
   			setTimeout(function(){
   				$(".post-list-wrapper").remove();
   			}, 100);
@@ -208,7 +261,6 @@ var site = {
 
 
 $(document).ready(function(){
-	$(".swap-content").addClass("appear");
 	site.setUpHistoryJS();
 	
 	$(document).hammer().on("tap", ".modal .close", function(){
@@ -231,8 +283,16 @@ $(document).ready(function(){
     var key = e.keyCode;
     switch (key){
       case 39 : //right
+      	if ($(".page-name").hasClass("post")){
+      		var nextURL = $("div.post a.next.skipLink").attr("href");
+      		if (nextURL) History.pushState({}, "", nextURL);
+      	}
         break;
       case 37 : //left
+      	if ($(".page-name").hasClass("post")){
+      		var prevURL = $("div.post a.prev.skipLink").attr("href");
+      		if (prevURL) History.pushState({}, "", prevURL);
+      	}
         break;
       case 40 : //down
         break;
@@ -240,6 +300,10 @@ $(document).ready(function(){
         break;
       case 27 : //esc
         e.preventDefault();
+        if ($(".page-name").hasClass("post")){
+      		var homeURL = $("div.post a.homelink").attr("href");
+      		if (homeURL) History.pushState({}, "", homeURL);
+      	}
         if ( !$(".modal").hasClass("open") ) site.closeModal();
         break;
       default : break;

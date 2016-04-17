@@ -29,6 +29,7 @@
 	font-weight: normal;
 	@include antiAlias;
 }
+
 .icon-tags:before{content:'\0041';}
 .icon-back:before{content:'\0042';}
 .icon-social-dribbble:before{content:'\0044';}
@@ -36,6 +37,8 @@
 .icon-social-instagram:before{content:'\0049';}
 .icon-social-linkedin:before{content:'\004c';}
 .icon-current-music:before{content:'\004d';}
+.icon-next:before{content:'\004e';}
+.icon-prev:before{content:'\0050';}
 .icon-social-twitter:before{content:'\0054';}
 .icon-current-watching:before{content:'\0057';}
-
+.icon-x:before{content:'\0058';}

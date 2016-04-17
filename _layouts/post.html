@@ -3,7 +3,7 @@ layout: default
 ---
 <article class="page-name post">
     
-  <div class="scrollable-fixed-wrap">
+  <div class="scrollable-fixed-wrap swap-content-all">
     <div class="polaroid-wrap fixed-wrapper left-side">
       <div class="fixed-inner-wrapper">
         <div class="post-polaroid fixed-contents">
@@ -29,9 +29,21 @@ layout: default
         <div class="post">
           <div class="content">
             <header class="post-header post-meta">
-              <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-                {{ page.date | date: "%A, %B %d, %Y, %H:%M:%S" }}
-              </time> 
+              <div class="next-prev-control">
+                <a href="{{page.previous.url}}" class="{% if page.previous.url == null %}disabled{% endif %} prev skipLink">
+                  <span class="icon-prev"></span>
+                </a>
+                <a href="{{page.next.url}}" class="{% if page.next.url == null %}disabled{% endif %} next skipLink">
+                  <span class="icon-next"></span>
+                </a>
+              </div>
+              <div class="time-wrapper"> 
+                <a href="{{ site.baseurl }}/" class="homelink">{{ site.author }}</a>
+                <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+                  {{ page.date | date: "%a, %B %d, %Y, %H:%M:%S" }}
+                </time>
+              </div>
+                 
         	  </header>
 
         	  <div class="post-content" itemprop="articleBody">
