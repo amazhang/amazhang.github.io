@@ -54,7 +54,7 @@ layout: default
               {% if page.currentlyWatching %}
                 <div class="currently-item">
                   <i class="icon-current-watching"></i>
-                  <span class="value">{{ page.currentlyWatching }}</span>
+                  <span class="value">{{ page.currentlyWatching[0] }}{% if page.currentlyWatching[1] %} — {{ page.currentlyWatching[1] }}{% endif %}</span>
                 </div>
               {% endif %}
               {% if page.currentlyListening %}
@@ -63,12 +63,14 @@ layout: default
                   <span class="value">{{ page.currentlyListening[0] }} – {{ page.currentlyListening[1] }}</span>
                 </div>
               {% endif %}
-              {% if page.categories %}
+              {% if page.tags %}
                 <div class="currently-item">
                   <i class="icon-tags"></i>
-                  {% for tag in page.categories %}
-                    <div class="tag value">{{ tag }}</div>
-                  {% endfor %}
+                  <div class="tags-wrap">
+                    {% for tag in page.tags %}
+                      <div class="tag value {{ tag | slugify }}">{{ tag }}</div>
+                    {% endfor %}
+                  </div>
                 </div>
               {% endif %}
             </div>

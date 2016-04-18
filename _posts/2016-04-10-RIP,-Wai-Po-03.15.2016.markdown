@@ -4,8 +4,8 @@ title:  "RIP, Wai Po 03.15.2016"
 description: "A tribute to my recently passed, Grandma and about my Grandpa"
 date:   2016-04-10 00:16:16 -0400
 private: true
-categories: ["family", "personal", "travel"]
-currentlyWatching: "Friends, S07E01"
+tags: ["all", "family", "personal", "travel"]
+currentlyWatching: ["Friends", "S07E01"]
 ---
 ### My Grandparents
 It's almost been a month now since my Grandma passed away. I've always considered myself close to my Grandparents or at least more so than some of my American friends. I grew up with them for a large portion of my childhood. My grandma often was the one who prepared dinner for our family. Despite all of this time, I would say that I didn't really *know* them. 

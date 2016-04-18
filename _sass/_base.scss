@@ -302,50 +302,61 @@ pre {
 }
 
 // tags in pill form
-// .tags-wrap {
-//   margin-top: $body-padding-sml * 2;
-// }
-
-// .tag {
-//   float: left;
-//   text-transform: uppercase;
-//   padding: 5px 20px;
-//   border-radius: 20px;
-//   font-family: $sans-serif-font;
-//   font-weight: 900;
-//   font-size: 12px;
-//   background-color: $grey-color-light;
-//   margin-right: 10px;
-//   letter-spacing: 2px;
-//   cursor: pointer;
-//   color: $bodyColor;
-//   @include prefix (transition, 0.3s $easing-curve);
+.post .currently-item i.icon-tags {
+  display: none;
+}
+.tags-wrap {
+  margin-top: 10px;
   
-//   &:hover {
-//     background-color: #fff;
-//     @include prefix (box-shadow, 0 3px 5px rgba(0,0,0, 0.1) );
-//   }
-// }
-
-// tags written like currently watching
-.tag {
-  display: inline;
-  cursor: pointer;
-  @include prefix (transition, 0.3s $easing-curve);
-  border-bottom: 1px dotted transparent;
-  
-  &:hover {
-    border-color: $primary;
-  }
-  
-  &:after {
-    content: ",";
-  }
-  
-  &:last-child:after {
+  .tag.all {
     display: none;
   }
 }
+.tags-page-wrap {
+  margin-top: $body-padding-content;
+}
+.tag {
+  float: left;
+  text-transform: uppercase;
+  padding: 5px 20px;
+  border-radius: 20px;
+  font-family: $sans-serif-font;
+  font-weight: 900;
+  font-size: 12px;
+  background-color: $grey-color-light;
+  margin: 0 5px 7px 0;
+  letter-spacing: 2px;
+  cursor: pointer;
+  pointer-events: auto;
+  color: $bodyColor;
+  @include prefix (transition, 0.3s $easing-curve);
+  
+  &:hover, &.selected {
+    background-color: $bodyColor;
+    color: #fff;
+    @include prefix (box-shadow, 0 3px 5px rgba(0,0,0, 0.1) );
+  }
+}
+
+// tags written like currently watching
+// .tag {
+//   display: inline;
+//   cursor: pointer;
+//   @include prefix (transition, 0.3s $easing-curve);
+//   border-bottom: 1px dotted transparent;
+  
+//   &:hover {
+//     border-color: $primary;
+//   }
+  
+//   &:after {
+//     content: ",";
+//   }
+  
+//   &:last-child:after {
+//     display: none;
+//   }
+// }
 
 // polaroid css
 a.post-links {

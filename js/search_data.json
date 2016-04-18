@@ -1,0 +1,30 @@
+---
+layout: null
+---
+{
+  {% for post in site.posts %}
+    "{{ post.url | slugify }}": {
+      "title": "{{ post.title | xml_escape }}",
+      "description": "{{ post.description | xml_escape }}",
+      "tags": {{ post.tags | sort | jsonify }},
+      "currentlyListening": {
+      	"song" : {{ post.currentlyListening[0] | jsonify }},
+      	"artist" : {{ post.currentlyListening[1] | jsonify }},
+      	"album" : {{ post.currentlyListening[2] | jsonify }}
+      },
+      "currentlyWatching": {
+      	"name" : {{ post.currentlyWatching[0] | jsonify }},
+      	"episode" : {{ post.currentlyWatching[1] | jsonify }}
+      },
+      "timestamp" : {
+      	"month" : {{ post.date | date: "%B" | jsonify}},
+      	"day" : {{ post.date | date: "%d" }},
+      	"year" : {{ post.date | date: "%Y" }},
+      	"dow" : {{ post.date | date: "%A" | jsonify }},
+      	"hour" : {{ post.date | date: "%H" }},
+      	"min" : {{ post.date | date: "%M" }}
+      }
+    }
+    {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+}
