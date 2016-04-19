@@ -136,10 +136,14 @@ var site = {
 			  		var urlStrSlug = urlStr.substr(urlStr.indexOf("/posts"));
 			  		var $link = $("a[href='" + urlStrSlug + "']");
 			  		
+			  		// if we can find a polaroid on that page
 			  		if ($link.length && $link.find(".post-polaroid").length > 0) {
 			  			pageTransition = "listToPost";
-			        $(".swap-content:not(.disappearDown)").addClass("disappearDown");
+			  			
+			        $(".swap-content").addClass("disappearDown");
 			  		}
+			  		
+			  		// if its from a next/prev link
 			  		else if ($link.length && $link.hasClass("skipLink")){
 			  			pageTransition = "postToPost";
 			  			
@@ -151,10 +155,46 @@ var site = {
 				      }
 				    }
 			  	}
-			  	// if its to a lost
+			  	
+			  	// if its to a list / tag page
 			  	else {
-			  		$('.swap-content').addClass("disappearDown");
-			  		site.transitionDefault($(data));
+			  		// if its coming from a post
+			  		if ( $(".page-name").hasClass("post") ){
+			  			$('.swap-content').addClass("disappearDown");
+				  		site.transitionToList($(data));
+			  		}
+			  		
+			  		// else, its not coming from a post (assuming list for now)
+			  		else {
+			  			// if from tag to tag
+				  		if ( $(".page-name").hasClass("tag") && $(data).find(".page-name").hasClass("tag") ){
+				  			pageTransition = "tagToTag";
+				  			site.transitionTagToTag($(data));
+				  			
+				  			$(".num-posts").html($(data).find("a.post-links").length + " posts");
+				  			
+				  			var tagSlug = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+				  			$(".tag-link.selected").removeClass("selected");
+				  			
+				  			if (tagSlug == ""){
+				  				tagSlug = "all";
+				  				$("h1").html($(data).find("h1").html());
+				  				$("h1").addClass("all-wrap");
+				  			}
+				  			else {
+					  			$("h1 .tag-name").html($(data).find(".tag-name").html());
+				  				$("h1").removeClass("all-wrap");
+				  			}
+				  			
+				  			$(".tag-link." + tagSlug).addClass("selected");
+			  			}
+			  			// if from tag to index, or index to tag
+			  			else {
+			  				pageTransition = "differentLists";
+			  				site.transitionDefault($(data));
+			  			}
+			  		}
+			  		
 			  	}
         	
 	        setTimeout(function(){
@@ -182,8 +222,13 @@ var site = {
 				  		$('.swap-content-all').css("transition", "0s");
 				  		$('.swap-content-all').toggleClass("disappearLeft disappearRight").html($(data).find('.swap-content-all').html());
 							$('.swap-content-all').css("transition", "");
-							$("html,body").scrollTop(0);
+							$("html, body, .scrollable-wrapper").scrollTop(0);
 							$('.swap-content-all').removeClass("disappearLeft disappearRight");
+				  	} else if (pageTransition == "tagToTag") {
+					  	$(".fixed-wrapper").addClass("swap-content");
+			  			setTimeout(function(){
+			  				$('.scrollable-wrapper').removeClass("swap-content");
+			  			}, site.pageTransitionTime);
 				  	}
 	          
 	        }, site.pageTransitionTime);
@@ -191,22 +236,31 @@ var site = {
         
         // else use mobile transition
         else {
-        	site.mobileTransitionDefault($(data));
+        	site.transitionDefault($(data));
         }
         
         // _gaq.push(['_trackPageview', State.url]);
       });
     });
   },
-  mobileTransitionDefault : function($data) {
+  transitionDefault : function($data) {
   	$(".swap-content-all").addClass("disappearDown");
   	setTimeout(function() {
-  		$("html,body").scrollTop(0);
+  		$("html, body, .scrollable-wrapper").scrollTop(0);
   		$('.swap-content-all').html($data.find('.swap-content-all').html());
-  		$('.swap-content-all, .swap-content').removeClass("disappearDown");
+  		$('.disappearDown').removeClass("disappearDown");
   	}, site.pageTransitionTime);
   },
-  transitionDefault : function($data) {
+  transitionTagToTag : function($data) {
+  	$(".fixed-wrapper").removeClass("swap-content");
+  	$(".scrollable-wrapper").css("opacity", "").css("transform", "").addClass("swap-content disappearDown");
+  	setTimeout(function() {
+  		$("html,body, .scrollable-wrapper").scrollTop(0);
+  		$('.scrollable-wrapper').html($data.find('.scrollable-wrapper').html());
+  		$('.disappearDown').removeClass("disappearDown");
+  	}, site.pageTransitionTime);
+  },
+  transitionToList : function($data) {
   	TweenLite.to($(".polaroid-wrap"), (site.pageTransitionTime / 1000), {
   		y : 100,
   		alpha : 0,
@@ -218,7 +272,7 @@ var site = {
   			setTimeout(function(){
   				$(".polaroid-wrap.fixed-wrapper").remove();
   				
-  				$('.swap-content, .swap-content-all').removeClass("disappearDown");
+  				$('.disappearDown').removeClass("disappearDown");
   				TweenLite.to($(".post-list-wrapper"), (site.pageTransitionTime / 1000), {
 			  		y : 0,
 			  		alpha : 1,
@@ -240,7 +294,7 @@ var site = {
   		ease : cssBezier,
   	});
   	
-  	$('.swap-content, .swap-content-all').removeClass("disappearDown");
+  	$('.disappearDown').removeClass("disappearDown");
 		$(".post-list a:nth-child(" + polaroidNum + ") li").css("transform", "rotate(-2deg)");
   	TweenLite.to($(".post-list a:nth-child(" + polaroidNum + ")"), (site.pageTransitionTime / 1000), {
   		y : ((windowHeight - polaroidHeight)/2) - distFromWindowTop,
@@ -257,8 +311,6 @@ var site = {
   	});
   }
 };
-
-
 
 $(document).ready(function(){
 	site.setUpHistoryJS();

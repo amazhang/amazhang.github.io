@@ -1,13 +1,13 @@
 /**
  * Site index
  */
-.home {
+.home, .tag {
   width: 100vw;
   height: 100vh;
 }
 
 .intro-wrapper {
-  max-width: 500px;
+  max-width: 510px;
   
   h1 {
     margin-bottom: $body-padding;
@@ -15,15 +15,6 @@
   
   .intro-text {
     margin-bottom: $body-padding-content;
-  }
-  
-  .num-posts {
-    font-family: $sans-serif-font;
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    margin-bottom: $body-padding-sml;
   }
   
   .social-links li{
@@ -42,8 +33,42 @@
   }
 }
 
+.post-header {
+  font-family: $sans-serif-font;
+  margin-bottom: $body-padding;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: $primary;
+  font-weight: 900;
+  letter-spacing: 2px;
+  
+  time {
+    opacity: 0.6;
+  }
+  
+  a {
+    border: 0;
+    color: $linkColor;
+    display: block;
+    margin-bottom: 5px;
+    
+    &:hover {
+      color: $linkHover;
+    }
+  }
+}
+
+// random hacky bit for tag page
+.all-wrap .pretext{
+  display: none;
+}
+.tag-name {
+  text-transform: capitalize;
+}
+
+
 @media screen and (max-width: $breakpt-med ) {
-  .page-content .home .intro-side {
+  .page-content .intro-side {
     padding: $body-padding; 
     padding-top: $body-padding-content;
     text-align: center;

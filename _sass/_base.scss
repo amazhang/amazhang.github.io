@@ -28,6 +28,10 @@ body {
   font-kerning: normal;
   width: 100%;
   min-height: 100vh;
+  
+  @media screen and (min-width: $breakpt-med ) {
+    overflow: hidden;
+  }
 }
 
 p {
@@ -308,14 +312,26 @@ pre {
 .tags-wrap {
   margin-top: 10px;
   
+  a, a:visited, a:hover, a:focus {
+    border: 0;
+  }
+  
   .tag.all {
     display: none;
   }
 }
 .tags-page-wrap {
   margin-top: $body-padding-content;
+  
+  a, a:visited, a:hover, a:focus {
+    border: 0;
+  }
+  
+  @media screen and (max-width: $breakpt-med ) {
+    text-align: center; 
+  }
 }
-.tag {
+.tag-link {
   float: left;
   text-transform: uppercase;
   padding: 5px 20px;
@@ -331,10 +347,20 @@ pre {
   color: $bodyColor;
   @include prefix (transition, 0.3s $easing-curve);
   
-  &:hover, &.selected {
+  &:hover {
+    background-color: #fff;
+    color: $bodyColor;
+    @include prefix (box-shadow, 0 3px 5px rgba(0,0,0, 0.1) );
+  }
+  &.selected {
     background-color: $bodyColor;
     color: #fff;
     @include prefix (box-shadow, 0 3px 5px rgba(0,0,0, 0.1) );
+  }
+  
+  @media screen and (max-width: $breakpt-med ) {
+    float: none;
+    display: inline-block; 
   }
 }
 

@@ -68,7 +68,9 @@ layout: default
                   <i class="icon-tags"></i>
                   <div class="tags-wrap">
                     {% for tag in page.tags %}
-                      <div class="tag value {{ tag | slugify }}">{{ tag }}</div>
+                      <a href="{{ site.baseurl }}/tags/{{ tag | slugify }}">
+                        <div class="tag-link value {{ tag | slugify }}">{{ tag }}</div>
+                      </a>
                     {% endfor %}
                   </div>
                 </div>

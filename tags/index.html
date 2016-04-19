@@ -1,18 +1,32 @@
 ---
 layout: default
 ---
-<div class="page-name home">
+<div class="page-name tag">
   <div class="scrollable-fixed-wrap swap-content-all">
 		<div class="intro-side fixed-wrapper swap-content right-side">
 		  <div class="intro-wrapper fixed-contents">
 		    <div class="intro-text">
-		      <div class="num-posts">{{ site.tags.all | size }} posts</div>
+		    	<div class="post-header">
+			      <div class="num-posts">{{ site.tags.all | size }} posts</div>
+	          <a href="{{ site.baseurl }}/" class="homelink">{{ site.author }}</a>
+	         </div>
 		      {% assign sortedTags = site.tags | sort %}
-		      <h1>All posts</h1>
+	      	<h1 class="all-wrap">
+		      	<span class="pretext">Posts tagged as <br />"</span><!--
+		      	--><span class="tag-name">All posts</span><!--
+		      	--><span class="pretext">"</span>
+	      	</h1>
 			     <div class="tags-page-wrap">
 			      {% for tag in sortedTags %}
-			      	<div class="tag {{ tag | first | slugify }}">{{ tag | first }}</div>
+			      	<a href="{{ site.baseurl }}/tags/{{ tag | first | slugify }}">
+			      		{% assign uniqueTag = tag | first %}
+				      	<div class="tag-link {{ uniqueTag | slugify }}">{{ uniqueTag }} ({{ site.tags[uniqueTag] | size }})</div>
+			      	</a>
 			      {% endfor %}
+			      <script type="text/javascript">
+			      	$(".tag-link.all").addClass("selected");
+			      	$(".tag-link.all").parent().attr("href", "{{ site.baseurl }}/tags/");
+			      </script>
 			     </div>
 		    </div>
 		  </div>

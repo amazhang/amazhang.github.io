@@ -4,7 +4,7 @@ title:  "Hello, world!"
 description: "This is the first post on this blog. Let’s see how long this lasts!"
 date:   2016-04-04 09:32:00 -0400
 private: true
-tags: ["all", "projects", "personal", "life", "tech stuff"]
+tags: ["all", "projects", "personal", "life", "technology"]
 currentlyWatching: ["Game of Thrones", "S03E05"]
 currentlyListening: ["Dojo Rising", "Cloud Control", "Dream Cave"]
 ---
